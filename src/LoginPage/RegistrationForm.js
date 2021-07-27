@@ -1,6 +1,7 @@
+import { Button, Checkbox, Form, Input, InputNumber, Select } from 'antd';
 import React, { useState } from 'react';
-import { Form, Input, InputNumber, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
 const { Option } = Select;
+
 const residences = [
   {
     value: 'zhejiang',
@@ -77,8 +78,6 @@ const validateMessages = {
 const RegistrationForm = () => {
   const [form] = Form.useForm();
 
-
-
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
       <Select
@@ -97,7 +96,9 @@ const RegistrationForm = () => {
     if (!value) {
       setAutoCompleteResult([]);
     } else {
-      setAutoCompleteResult(['.com', '.org', '.net'].map((domain) => `${value}${domain}`));
+      setAutoCompleteResult(
+        ['.com', '.org', '.net'].map((domain) => `${value}${domain}`),
+      );
     }
   };
 
@@ -106,10 +107,10 @@ const RegistrationForm = () => {
     value: website,
   }));
 
-  const [account, setAccount] = useState({ username: "", password: "" })
+  const [account, setAccount] = useState({ username: '', password: '' });
   const onFinish = (values) => {
-    setAccount({ username: values.username, password: values.password })
-    console.log(account)
+    setAccount({ username: values.username, password: values.password });
+    console.log(account);
     console.log('Received values of form: ', values);
   };
 
@@ -138,7 +139,11 @@ const RegistrationForm = () => {
       >
         <Input />
       </Form.Item>
-      <Form.Item name="age" label="Age" rules={[{ type: 'number', min: 0, max: 99 }]}>
+      <Form.Item
+        name="age"
+        label="Age"
+        rules={[{ type: 'number', min: 0, max: 99 }]}
+      >
         <InputNumber />
       </Form.Item>
       <Form.Item
@@ -210,7 +215,9 @@ const RegistrationForm = () => {
                 return Promise.resolve();
               }
 
-              return Promise.reject(new Error('The two passwords that you entered do not match!'));
+              return Promise.reject(
+                new Error('The two passwords that you entered do not match!'),
+              );
             },
           }),
         ]}
@@ -218,14 +225,15 @@ const RegistrationForm = () => {
         <Input.Password />
       </Form.Item>
 
-
       <Form.Item
         name="agreement"
         valuePropName="checked"
         rules={[
           {
             validator: (_, value) =>
-              value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
+              value
+                ? Promise.resolve()
+                : Promise.reject(new Error('Should accept agreement')),
           },
         ]}
         {...tailFormItemLayout}
@@ -242,4 +250,4 @@ const RegistrationForm = () => {
     </Form>
   );
 };
-export default RegistrationForm
+export default RegistrationForm;

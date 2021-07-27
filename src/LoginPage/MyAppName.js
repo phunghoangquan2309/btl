@@ -1,9 +1,6 @@
-import React from 'react'
+import React from 'react';
 function MyAppName() {
-    return (
-        <h1>ToDoApp</h1>
-    )
+  return <h1>ToDoApp</h1>;
 }
 
-export default MyAppName
-
+export default MyAppName;

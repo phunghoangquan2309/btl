@@ -1,82 +1,84 @@
-import { Form, Input, Button, Checkbox } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { Button, Checkbox, Form, Input } from 'antd';
 import 'antd/dist/antd.css';
-import React, { Component } from 'react'
-import { useHistory, Link } from 'react-router-dom';
+import React from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import callAPI from '../ApiCall/ApiCaller';
+import { useAuth } from '../Context/AuthContext';
 
+const LoginForm = () => {
+  const { setUser } = useAuth();
+  const history = useHistory();
 
-export class LoginForm extends Component {
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            account: { username: "", password: "" }
-        }
-    }
-
-    onFinish = (values) => {
-        this.setState({ account: { username: values.username, password: values.password } })
-        console.log(this.state.account.username)
-        console.log(this.state.account.password)
-        console.log('Received values of form: ', values);
-        callAPI("login", "POST", this.state.account).then(res => {
-            console.log("API CALL", res.data)
-        });
+  const onFinish = (values) => {
+    const user = {
+      username: values.username,
+      password: values.password,
     };
-    render() {
-        return (
-            <Form
-                name="normal_login"
-                className="login-form"
-                initialValues={{
-                    remember: true,
-                }}
-                onFinish={this.onFinish}
-            >
-                <Form.Item
-                    name="username"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please input your Username!',
-                        },
-                    ]}
-                >
-                    <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
-                </Form.Item>
-                <Form.Item
-                    name="password"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please input your Password!',
-                        },
-                    ]}
-                >
-                    <Input
-                        prefix={<LockOutlined className="site-form-item-icon" />}
-                        type="password"
-                        placeholder="Password"
-                    />
-                </Form.Item>
-                <Form.Item>
-                    <Form.Item name="remember" valuePropName="checked" noStyle>
-                        <Checkbox>Remember me</Checkbox>
-                    </Form.Item>
+    // callAPI('login', 'POST', user)
+    //   .then((res) => {
+    //     setUser(user);
+    //   })
+    //   .catch();
+    setUser(user);
+    localStorage.setItem('login', JSON.stringify(user));
+    history.push('/home');
+  };
 
+  return (
+    <Form
+      name="normal_login"
+      className="login-form"
+      initialValues={{
+        remember: true,
+        username: '',
+        password: '',
+      }}
+      onFinish={onFinish}
+    >
+      <Form.Item
+        name="username"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your Username!',
+          },
+        ]}
+      >
+        <Input
+          prefix={<UserOutlined className="site-form-item-icon" />}
+          placeholder="Username"
+        />
+      </Form.Item>
+      <Form.Item
+        name="password"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your Password!',
+          },
+        ]}
+      >
+        <Input
+          prefix={<LockOutlined className="site-form-item-icon" />}
+          type="password"
+          placeholder="Password"
+        />
+      </Form.Item>
+      <Form.Item>
+        <Form.Item name="remember" valuePropName="checked" noStyle>
+          <Checkbox>Remember me</Checkbox>
+        </Form.Item>
+      </Form.Item>
 
-                </Form.Item>
+      <Form.Item>
+        <Button type="primary" htmlType="submit" className="login-form-button">
+          Log in
+        </Button>
+        Or <Link to="/register">register now!</Link>
+      </Form.Item>
+    </Form>
+  );
+};
 
-                <Form.Item>
-                    <Button type="primary" htmlType="submit" className="login-form-button" >
-                        Log in
-                    </Button>
-                    Or <Link to="/register">register now!</Link>
-                </Form.Item>
-            </Form>
-        )
-    }
-}
-
-export default LoginForm
+export default LoginForm;
