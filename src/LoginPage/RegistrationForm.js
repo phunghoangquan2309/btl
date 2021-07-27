@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Input, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
+import { Form, Input, InputNumber, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
 const { Option } = Select;
 const residences = [
   {
@@ -65,11 +65,19 @@ const tailFormItemLayout = {
     },
   },
 };
-
+const validateMessages = {
+  required: '${label} is required!',
+  types: {
+    number: '${label} is not a valid number!',
+  },
+  number: {
+    range: '${label} must be between ${min} and ${max}',
+  },
+};
 const RegistrationForm = () => {
   const [form] = Form.useForm();
-  
- 
+
+
 
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
@@ -97,16 +105,16 @@ const RegistrationForm = () => {
     label: website,
     value: website,
   }));
-  
-  const [account, setAccount] = useState({username:"",password:""})
+
+  const [account, setAccount] = useState({ username: "", password: "" })
   const onFinish = (values) => {
-    setAccount({username:values.username,password:values.password})
+    setAccount({ username: values.username, password: values.password })
     console.log(account)
     console.log('Received values of form: ', values);
   };
 
   return (
-    <Form 
+    <Form
       {...formItemLayout}
       form={form}
       name="register"
@@ -117,6 +125,53 @@ const RegistrationForm = () => {
       }}
       scrollToFirstError
     >
+      <Form.Item
+        name="fullname"
+        label="Fullname"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your fullname!',
+            whitespace: true,
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item name="age" label="Age" rules={[{ type: 'number', min: 0, max: 99 }]}>
+        <InputNumber />
+      </Form.Item>
+      <Form.Item
+        name="gender"
+        label="Gender"
+        rules={[
+          {
+            required: true,
+            message: 'Please select gender!',
+          },
+        ]}
+      >
+        <Select placeholder="select your gender">
+          <Option value="male">Male</Option>
+          <Option value="female">Female</Option>
+        </Select>
+      </Form.Item>
+      <Form.Item
+        name="email"
+        label="E-mail"
+        rules={[
+          {
+            type: 'email',
+            message: 'The input is not valid E-mail!',
+          },
+          {
+            required: true,
+            message: 'Please input your E-mail!',
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
       <Form.Item
         label="Username"
         name="username"

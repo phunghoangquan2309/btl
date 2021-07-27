@@ -3,23 +3,26 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import React, { Component } from 'react'
 import { useHistory, Link } from 'react-router-dom';
-
+import callAPI from '../ApiCall/ApiCaller';
 
 
 export class LoginForm extends Component {
     constructor(props) {
         super(props)
-    
+
         this.state = {
-            account:{username:"",password:""}
+            account: { username: "", password: "" }
         }
     }
-    
+
     onFinish = (values) => {
-        this.setState({account:{username:values.username,password:values.password}})
+        this.setState({ account: { username: values.username, password: values.password } })
         console.log(this.state.account.username)
         console.log(this.state.account.password)
         console.log('Received values of form: ', values);
+        callAPI("login", "POST", this.state.account).then(res => {
+            console.log("API CALL", res.data)
+        });
     };
     render() {
         return (
