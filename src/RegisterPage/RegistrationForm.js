@@ -109,8 +109,6 @@ const RegistrationForm = () => {
 
   const [account, setAccount] = useState({ username: '', password: '' });
   const onFinish = (values) => {
-    setAccount({ username: values.username, password: values.password });
-    console.log(account);
     console.log('Received values of form: ', values);
   };
 
@@ -145,21 +143,6 @@ const RegistrationForm = () => {
         rules={[{ type: 'number', min: 0, max: 99 }]}
       >
         <InputNumber />
-      </Form.Item>
-      <Form.Item
-        name="gender"
-        label="Gender"
-        rules={[
-          {
-            required: true,
-            message: 'Please select gender!',
-          },
-        ]}
-      >
-        <Select placeholder="select your gender">
-          <Option value="male">Male</Option>
-          <Option value="female">Female</Option>
-        </Select>
       </Form.Item>
       <Form.Item
         name="email"

@@ -6,9 +6,10 @@ import {
 } from 'react-router-dom';
 import './App.css';
 import { useAuth } from './Context/AuthContext';
-import Home from './LoginPage/Home';
+import Home from './TodoWebapp/Home';
 import Login from './LoginPage/Login';
-import Register from './LoginPage/Register';
+import Register from './RegisterPage/Register';
+import AddTodo from './TodoWebapp/AddTodo';
 
 const PrivateRoute = (props) => {
   const { user } = useAuth();
@@ -25,26 +26,26 @@ function App() {
       <Router>
         <Switch>
           <PrivateRoute
-            path="/home"
-            render={() => {
-              return localStorage.getItem('login') ? (
-                <Home />
-              ) : (
-                <Redirect to="/" />
-              );
-            }}
-          />
-          <PublicRoute path="/register">
-            <Register />
-          </PublicRoute>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Redirect to="/login" />
+            path="/home/addtodo"
+          >
+            <AddTodo />
+          </PrivateRoute>
+            <PrivateRoute
+              path="/home"
+            >
+              <Home />
+            </PrivateRoute>
+            <PublicRoute path="/register">
+              <Register />
+            </PublicRoute>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Redirect to="/login" />
         </Switch>
       </Router>
     </div>
-  );
+      );
 }
 
-export default App;
+      export default App;
