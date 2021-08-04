@@ -1,10 +1,9 @@
 import React from 'react'
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout} from 'antd';
 import FormAdd from './FormAdd';
 
-
 const { Header, Content, Footer } = Layout;
-function AddTodo() {
+function EditTodo() {
     return (
         <Layout className="layout">
             <Header>
@@ -18,4 +17,4 @@ function AddTodo() {
     )
 }
 
-export default AddTodo
+export default EditTodo

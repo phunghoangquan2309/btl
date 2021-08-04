@@ -1,5 +1,6 @@
 import { Button, Checkbox, Form, Input, InputNumber, Select } from 'antd';
 import React, { useState } from 'react';
+import callAPI from '../ApiCall/ApiCaller';
 const { Option } = Select;
 
 const residences = [
@@ -110,6 +111,9 @@ const RegistrationForm = () => {
   const [account, setAccount] = useState({ username: '', password: '' });
   const onFinish = (values) => {
     console.log('Received values of form: ', values);
+    callAPI("register", "POST", values)
+      .then((res) => { alert("Đăng ký thành công") })
+      .catch((err) => { console.log(typeof (err.respone.status));if (err.respone.status === 406) { alert("username đã được sử dụng") } else { alert("đăng ký thất bại !") } })
   };
 
   return (

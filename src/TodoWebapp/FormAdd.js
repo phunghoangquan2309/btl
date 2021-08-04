@@ -1,4 +1,7 @@
 import { Form, DatePicker, TimePicker, Button, Input, Select } from 'antd';
+import callAPI from '../ApiCall/ApiCaller';
+import { useHistory } from "react-router-dom";
+import { useAuth } from '../Context/AuthContext';
 const { Option } = Select;
 const formItemLayout = {
   labelCol: {
@@ -38,12 +41,21 @@ const rangeConfig = {
 };
 
 const FormAdd = () => {
+  const {user} = useAuth();
+  const history = useHistory();
   const onFinish = (fieldsValue) => {
     const values = {
       ...fieldsValue,
       'date': fieldsValue['date'].format('YYYY-MM-DD'),
       'time': fieldsValue['time'].format('HH:mm:ss'),
     };
+    values['username']=user.username;
+    callAPI('add', 'POST', values)
+      .then((res) => {
+        alert("Thành công");
+        history.push('/home');
+      })
+      .catch(err=>{ alert("Error") });
     console.log('Received values of form: ', values);
   };
 
