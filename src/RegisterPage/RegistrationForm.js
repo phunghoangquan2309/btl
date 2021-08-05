@@ -113,7 +113,7 @@ const RegistrationForm = () => {
     console.log('Received values of form: ', values);
     callAPI("register", "POST", values)
       .then((res) => { alert("Đăng ký thành công") })
-      .catch((err) => { console.log(typeof (err.respone.status));if (err.respone.status === 406) { alert("username đã được sử dụng") } else { alert("đăng ký thất bại !") } })
+      .catch((err) => { console.log(typeof (err.respone.status)); if (err.respone.status === 406) { alert("username đã được sử dụng") } else { alert("đăng ký thất bại !") } })
   };
 
   return (

@@ -10,6 +10,7 @@ import Home from './TodoWebapp/Home';
 import Login from './LoginPage/Login';
 import Register from './RegisterPage/Register';
 import AddTodo from './TodoWebapp/AddTodo';
+import EditTodo from './TodoWebapp/EditTodo';
 
 const PrivateRoute = (props) => {
   const { user } = useAuth();
@@ -25,6 +26,11 @@ function App() {
     <div className="App">
       <Router>
         <Switch>
+          <PrivateRoute
+            path="/home/edittodo"
+          >
+            <EditTodo />
+          </PrivateRoute>
           <PrivateRoute
             path="/home/addtodo"
           >

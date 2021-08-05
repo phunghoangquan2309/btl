@@ -36,10 +36,10 @@ function TableTodo({ todoList, setTodoList }) {
     {
       title: 'Action',
       key: 'action',
-      render: (record) => {
+      render: (record, text) => {
         return (
           <Space size="middle">
-            <Link to={`/home/del?key=${record.key}`}>Edit</Link>
+            <Link to={`/home/edittodo?id=${record.key}&date=${text.date}&time=${text.time}&name=${text.name}&status=${text.status}`}>Edit</Link>
             <Link
               onClick={() => {
                 if (window.confirm('Bạn có chắc chắn muốn xóa ?')) {

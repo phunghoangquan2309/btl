@@ -21,7 +21,7 @@ const LoginForm = () => {
         localStorage.setItem('login', JSON.stringify(user));
         history.push('/home');
       })
-      .catch((err) => { console.log({ err }); if (err.status == 406) { alert("username không tồn tại") } else { alert("đăng nhập thất bại !") } });
+    // .catch((error) => { console.log(error.response.status) });
   };
 
   return (

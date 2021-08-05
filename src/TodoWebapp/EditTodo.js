@@ -1,6 +1,6 @@
 import React from 'react'
 import { Layout} from 'antd';
-import FormAdd from './FormAdd';
+import FormEdit from './FormEdit';
 
 const { Header, Content, Footer } = Layout;
 function EditTodo() {
@@ -10,7 +10,7 @@ function EditTodo() {
                 <div className="logo" />
             </Header>
             <Content style={{ padding: '250px 300px' }}>
-                <FormAdd/>
+                <FormEdit/>
             </Content>
             <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
         </Layout>

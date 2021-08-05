@@ -30,15 +30,7 @@ const config = {
     },
   ],
 };
-const rangeConfig = {
-  rules: [
-    {
-      type: 'array',
-      required: true,
-      message: 'Please select time!',
-    },
-  ],
-};
+
 
 const FormAdd = () => {
   const {user} = useAuth();
@@ -90,11 +82,11 @@ const FormAdd = () => {
           name="status"
           label="Status"
           rules={[{ required: true, message: 'Please select status!' }]}
+          initialValue="false"
         >
           <Select placeholder="select todo status">
-            <Option value={0}>Not Done</Option>
-            <Option value={1}>Done</Option>
-
+            <Option value="false">Not Done</Option>
+            <Option value="true">Done</Option>
           </Select>
         </Form.Item>
         <Button type="primary" htmlType="submit">

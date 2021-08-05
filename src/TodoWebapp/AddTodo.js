@@ -11,7 +11,7 @@ function AddTodo() {
                 <div className="logo" />
             </Header>
             <Content style={{ padding: '250px 300px' }}>
-                <FormAdd/>
+                <FormAdd />
             </Content>
             <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
         </Layout>
