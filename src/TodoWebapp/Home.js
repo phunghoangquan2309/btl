@@ -37,6 +37,28 @@ const config = {
     },
   ],
 };
+const data =[ {
+  id:1,
+  date:"2000-05-06",
+  time:"05:04:04",
+  name:"abc",
+  status:true
+},
+{
+  id:2,
+  date:"2020-09-06",
+  time:"15:54:04",
+  name:"cde",
+  status:true
+},
+{
+  id:3,
+  date:"2021-09-06",
+  time:"12:43:44",
+  name:"gmh",
+  status:false
+}
+]
 function Home() {
   const [CurrenTime, setCurrenTime] = useState('')
   const [CurrenDate, setCurrenDate] = useState('')
@@ -111,8 +133,8 @@ function Home() {
   }
   useEffect(() => {
 
-    loadListTodo();
-
+    // loadListTodo();
+    setTodoList(data)
 
   }, []);
 
