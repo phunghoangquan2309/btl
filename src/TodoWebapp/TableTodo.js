@@ -133,8 +133,8 @@ function TableTodo({ todoList, setTodoList }) {
         return (
           <Space size="middle">
             <Link onClick={() => { setIdEdit(record.key); setIsModalVisible(true); console.log(data) }}>Edit</Link>
-            <Modal title="Add Todo" visible={isModalVisible} onOk={form.submit} onCancel={handleCancel} okText="Add" >
-              <Form name="formadd" {...formItemLayout} onFinish={onFinish} form={form} initialValues={data}>
+            <Modal title="Edit Todo" visible={isModalVisible} onOk={form.submit} onCancel={handleCancel} okText="Edit" >
+              <Form name="formedit" {...formItemLayout} onFinish={onFinish} form={form} initialValues={data}>
                 <Form.Item name="date" label="Date" {...config}
                 >
                   <DatePicker />
@@ -163,7 +163,7 @@ function TableTodo({ todoList, setTodoList }) {
                   </Select>
                 </Form.Item>
                 <Button type="primary" htmlType="submit" hidden="true" >
-                  Add
+                  Edit
                 </Button>
 
               </Form>
