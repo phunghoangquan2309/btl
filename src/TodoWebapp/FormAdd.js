@@ -1,4 +1,4 @@
-import { Form, DatePicker, TimePicker, Button, Input, Select } from 'antd';
+import { Form, DatePicker, TimePicker, Button, Input, Select, message } from 'antd';
 import callAPI from '../ApiCall/ApiCaller';
 import { useHistory } from "react-router-dom";
 import { useAuth } from '../Context/AuthContext';
@@ -44,10 +44,10 @@ const FormAdd = () => {
     values['username']=user.username;
     callAPI('add', 'POST', values)
       .then((res) => {
-        alert("Thành công");
+        message.success("Add success "+values.name);
         history.push('/home');
       })
-      .catch(err=>{ alert("Error") });
+      .catch(err=>{ message.error("Add error") });
     console.log('Received values of form: ', values);
   };
 
@@ -89,7 +89,7 @@ const FormAdd = () => {
             <Option value="true">Done</Option>
           </Select>
         </Form.Item>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" >
           Submit
         </Button>
       </Form.Item>

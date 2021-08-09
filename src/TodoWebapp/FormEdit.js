@@ -1,8 +1,7 @@
-import { Form, DatePicker, TimePicker, Button, Input, Select } from 'antd';
+import { Form, DatePicker, TimePicker, Button, Input, Select, message } from 'antd';
 import callAPI from '../ApiCall/ApiCaller';
 import { useHistory } from "react-router-dom";
 import { useAuth } from '../Context/AuthContext';
-import queryString from 'query-string';
 import { useLocation } from "react-router-dom";
 import moment from 'moment';
 const { Option } = Select;
@@ -55,11 +54,11 @@ const FormEdit = () => {
         callAPI('update', 'PUT', values)
           .then((res) => {
             if (res.status == 200){
-                alert("Thành công");
+                message.success("Edit success");
                 history.push('/home');
             }
           })
-          .catch(err=>{ alert("Error") });
+          .catch(err=>{ message.error("Edit success"); });
         console.log('Received values of form: ',  values);
     };
     return (

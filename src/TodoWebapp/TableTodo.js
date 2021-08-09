@@ -1,11 +1,103 @@
-import { Space, Table, Tag } from 'antd';
-import React, { useEffect } from 'react';
+import { message, Popconfirm, Space, Tag, Table, DatePicker, TimePicker, Button, Input, Select, Form } from 'antd';
+import { React, useState } from 'react';
 import { Link } from 'react-router-dom';
 import callAPI from '../ApiCall/ApiCaller';
 import { useAuth } from '../Context/AuthContext';
-
+import { Modal } from 'antd';
+import moment from 'moment';
+const { Option } = Select;
+const formItemLayout = {
+  labelCol: {
+    xs: {
+      span: 24,
+    },
+    sm: {
+      span: 8,
+    },
+  },
+  wrapperCol: {
+    xs: {
+      span: 24,
+    },
+    sm: {
+      span: 16,
+    },
+  },
+};
+const config = {
+  rules: [
+    {
+      type: 'object',
+      required: true,
+      message: 'Please select time!',
+    },
+  ],
+}
 function TableTodo({ todoList, setTodoList }) {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [idEdit, setIdEdit] = useState(undefined);
   const { user } = useAuth();
+  const [form] = Form.useForm();
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+    form.resetFields();
+  };
+  function confirm(record, text) {
+    let endpoin = `delete?id=${record.key}`;
+    callAPI(endpoin, 'DELETE', null)
+      .then((res) => {
+        if (res.status === 200) {
+          message.success("Delete success " + text.name);;
+          const filteredTodos = Object.values(todoList).filter(
+            function (obj) {
+              return obj.key !== record.key;
+            },
+          );
+          setTodoList(filteredTodos);
+        }
+      })
+      .catch((err) => {
+        message.success("Delete error");;
+        console.log(err);
+      });
+
+  }
+  const onFinish = (fieldsValue) => {
+    const values = {
+      ...fieldsValue,
+      'id': idEdit,
+      'date': fieldsValue['date'].format('YYYY-MM-DD'),
+      'time': fieldsValue['time'].format('HH:mm:ss'),
+    };
+    values['username'] = user.username;
+    callAPI('update', 'PUT', values)
+      .then((res) => {
+        if (res.status == 200) {
+          message.success("Edit success");
+          loadListTodo();
+        }
+      })
+      .catch(err => { message.error("Edit success"); });
+    console.log('Received values of form: ', values);
+    setIsModalVisible(false);
+    form.resetFields();
+  };
+  function loadListTodo() {
+    let endpoint = `getlist?username=${user.username}`;
+    callAPI(endpoint, 'GET', null)
+      .then((res) => {
+        for (var i = 0; i < res.data.length; i++) {
+          res.data[i].key = res.data[i].id;
+          delete res.data[i].id;
+        }
+        setTodoList(res.data);
+      })
+      .catch((err) => {
+        alert('Loi');
+        console.log(err);
+      });
+  }
   const columns = [
     {
       title: 'Date',
@@ -37,34 +129,57 @@ function TableTodo({ todoList, setTodoList }) {
       title: 'Action',
       key: 'action',
       render: (record, text) => {
+        let data = { date: moment("2001-05-06", "YYYY-MM-DD"), time: moment(text.time, 'HH:mm:ss'), name: text.name, status: text.status }
         return (
           <Space size="middle">
-            <Link to={`/home/edittodo?id=${record.key}&date=${text.date}&time=${text.time}&name=${text.name}&status=${text.status}`}>Edit</Link>
-            <Link
-              onClick={() => {
-                if (window.confirm('Bạn có chắc chắn muốn xóa ?')) {
-                  let endpoin = `delete?id=${record.key}`;
-                  callAPI(endpoin, 'DELETE', null)
-                    .then((res) => {
-                      if (res.status === 200) {
-                        alert('Thanh cong');
-                        const filteredTodos = Object.values(todoList).filter(
-                          function (obj) {
-                            return obj.key !== record.key;
-                          },
-                        );
-                        setTodoList(filteredTodos);
-                      }
-                    })
-                    .catch((err) => {
-                      alert('Error');
-                      console.log(err);
-                    });
-                }
-              }}
+            <Link onClick={() => { setIdEdit(record.key); setIsModalVisible(true); console.log(data) }}>Edit</Link>
+            <Modal title="Add Todo" visible={isModalVisible} onOk={form.submit} onCancel={handleCancel} okText="Add" >
+              <Form name="formadd" {...formItemLayout} onFinish={onFinish} form={form} initialValues={data}>
+                <Form.Item name="date" label="Date" {...config}
+                >
+                  <DatePicker />
+                </Form.Item>
+                <Form.Item name="time" label="Time" {...config}
+                >
+                  <TimePicker />
+                </Form.Item>
+
+                <Form.Item
+                  label="Name"
+                  name="name"
+                  rules={[{ required: true, message: 'Please input your name!' }]}
+                >
+                  <Input />
+                </Form.Item>
+                <Form.Item
+                  name="status"
+                  label="Status"
+                  rules={[{ required: true, message: 'Please select status!' }]}
+                  initialValue="false"
+                >
+                  <Select placeholder="select todo status">
+                    <Option value="false">Not Done</Option>
+                    <Option value="true">Done</Option>
+                  </Select>
+                </Form.Item>
+                <Button type="primary" htmlType="submit" hidden="true" >
+                  Add
+                </Button>
+
+              </Form>
+            </Modal>
+
+            <Popconfirm
+              title="Are you sure to delete this to do?"
+              okText="Yes"
+              onConfirm={() => { confirm(record, text) }}
+              cancelText="No"
             >
-              Delete
-            </Link>
+              <Link>
+                Delete
+              </Link>
+            </Popconfirm>,
+
           </Space>
         );
       },
