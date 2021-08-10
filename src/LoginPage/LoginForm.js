@@ -15,13 +15,16 @@ const LoginForm = () => {
       username: values.username,
       password: values.password,
     };
-    callAPI('login', 'POST', user)
-      .then((res) => {
-        setUser(res.data);
-        localStorage.setItem('login', JSON.stringify(user));
-        history.push('/home');
-      })
+    // callAPI('login', 'POST', user)
+    //   .then((res) => {
+    //     setUser(res.data);
+    //     localStorage.setItem('login', JSON.stringify(user));
+    //     history.push('/home');
+    //   })
     // .catch((error) => { console.log(error.response.status) });
+    setUser(values)
+    localStorage.setItem('login', JSON.stringify(user));
+    history.push('/home');
   };
 
   return (

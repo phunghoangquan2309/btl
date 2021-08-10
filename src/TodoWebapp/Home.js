@@ -144,7 +144,7 @@ function Home() {
         <div className="logo" />
         <Search placeholder="input name" onSearch={onSearch} enterButton size="small" />
       </Header>
-      <Content style={{ padding: '50px 50px', height: "calc(91.8vh - 55px)" }}>
+      <Content style={{ padding: '50px 50px', height: "calc(91.8vh - 60px)" }}>
         <Button onClick={showModal} type="primary">
           Add
         </Button>
