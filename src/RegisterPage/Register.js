@@ -6,7 +6,7 @@ const { Header, Content, Footer } = Layout;
 function Register() {
   return (
     <Layout>
-      <Content style={{ padding: '200px 600px',height: "calc(91.8vh - 55px)" }}>
+      <Content style={{ padding: '255px 600px' }}>
         <RegistrationForm />
       </Content>
     </Layout>

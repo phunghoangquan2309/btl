@@ -6,9 +6,10 @@ import {
 } from 'react-router-dom';
 import './App.css';
 import { useAuth } from './Context/AuthContext';
-import Home from './TodoWebapp/Home';
 import Login from './LoginPage/Login';
 import Register from './RegisterPage/Register';
+import Introduction from './Introduction/Introduction';
+import Home from './TodoWebapp/Home';
 
 const PrivateRoute = (props) => {
   const { user } = useAuth();
@@ -35,7 +36,10 @@ function App() {
             <Route path="/login">
               <Login />
             </Route>
-            <Redirect to="/login" />
+            <Route path="/">
+              <Introduction/>
+            </Route>
+            <Redirect to="/" />
         </Switch>
       </Router>
     </div>

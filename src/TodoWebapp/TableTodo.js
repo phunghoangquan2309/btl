@@ -129,12 +129,12 @@ function TableTodo({ todoList, setTodoList }) {
       title: 'Action',
       key: 'action',
       render: (record, text) => {
-        let data = { date: moment("2001-05-06", "YYYY-MM-DD"), time: moment(text.time, 'HH:mm:ss'), name: text.name, status: text.status }
+        let data = { date: moment(text.date, "YYYY-MM-DD"), time: moment(text.time, 'HH:mm:ss'), name: text.name, status: text.status }
         return (
           <Space size="middle">
-            <Link onClick={() => { setIdEdit(record.key); setIsModalVisible(true); console.log(data) }}>Edit</Link>
+            <Link onClick={() => { setIdEdit(record.key); setIsModalVisible(true); console.log(data);form.setFieldsValue(data) }}>Edit</Link>
             <Modal title="Edit Todo" visible={isModalVisible} onOk={form.submit} onCancel={handleCancel} okText="Edit" >
-              <Form name="formedit" {...formItemLayout} onFinish={onFinish} form={form} initialValues={data}>
+              <Form name="formedit" {...formItemLayout} onFinish={onFinish} form={form} >
                 <Form.Item name="date" label="Date" {...config}
                 >
                   <DatePicker />
@@ -155,11 +155,10 @@ function TableTodo({ todoList, setTodoList }) {
                   name="status"
                   label="Status"
                   rules={[{ required: true, message: 'Please select status!' }]}
-                  initialValue="false"
                 >
                   <Select placeholder="select todo status">
-                    <Option value="false">Not Done</Option>
-                    <Option value="true">Done</Option>
+                    <Option value={false}>Not Done</Option>
+                    <Option value={true}>Done</Option>
                   </Select>
                 </Form.Item>
                 <Button type="primary" htmlType="submit" hidden="true" >
